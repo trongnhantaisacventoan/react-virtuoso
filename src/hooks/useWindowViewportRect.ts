@@ -47,24 +47,17 @@ export default function useWindowViewportRectRef(
     calculateInfo(ref.current)
   }, [calculateInfo, ref])
 
-  const scrollAndResizeParentEventHandler = React.useCallback(() => {
-    if (customScrollParent) {
-      console.log('DKM ----', 'scrollAndResizeParentEventHandler', ref.current)
-      calculateInfo(customScrollParent)
-    }
-  }, [calculateInfo, customScrollParent])
-
   React.useEffect(() => {
     if (customScrollParent) {
       customScrollParent.addEventListener('scroll', scrollAndResizeEventHandler)
       const observer = new ResizeObserver(scrollAndResizeEventHandler)
       observer.observe(customScrollParent)
-      myWindow?.addEventListener('resize', scrollAndResizeParentEventHandler)
+      myWindow?.addEventListener('resize', scrollAndResizeEventHandler)
 
       return () => {
         customScrollParent.removeEventListener('scroll', scrollAndResizeEventHandler)
         observer.unobserve(customScrollParent)
-        myWindow?.removeEventListener('resize', scrollAndResizeParentEventHandler)
+        myWindow?.removeEventListener('resize', scrollAndResizeEventHandler)
       }
     } else {
       window.addEventListener('scroll', scrollAndResizeEventHandler)

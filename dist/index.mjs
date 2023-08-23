@@ -2903,22 +2903,16 @@ function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
   const scrollAndResizeEventHandler = React.useCallback(() => {
     calculateInfo(ref.current);
   }, [calculateInfo, ref]);
-  const scrollAndResizeParentEventHandler = React.useCallback(() => {
-    if (customScrollParent) {
-      console.log("DKM ----", "scrollAndResizeParentEventHandler", ref.current);
-      calculateInfo(customScrollParent);
-    }
-  }, [calculateInfo, customScrollParent]);
   React.useEffect(() => {
     if (customScrollParent) {
       customScrollParent.addEventListener("scroll", scrollAndResizeEventHandler);
       const observer = new ResizeObserver(scrollAndResizeEventHandler);
       observer.observe(customScrollParent);
-      myWindow == null ? void 0 : myWindow.addEventListener("resize", scrollAndResizeParentEventHandler);
+      myWindow == null ? void 0 : myWindow.addEventListener("resize", scrollAndResizeEventHandler);
       return () => {
         customScrollParent.removeEventListener("scroll", scrollAndResizeEventHandler);
         observer.unobserve(customScrollParent);
-        myWindow == null ? void 0 : myWindow.removeEventListener("resize", scrollAndResizeParentEventHandler);
+        myWindow == null ? void 0 : myWindow.removeEventListener("resize", scrollAndResizeEventHandler);
       };
     } else {
       window.addEventListener("scroll", scrollAndResizeEventHandler);
