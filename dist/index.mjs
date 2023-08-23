@@ -3209,7 +3209,8 @@ const WindowViewport$2 = ({ children }) => {
   const windowViewportRect = usePublisher$2("windowViewportRect");
   const fixedItemHeight = usePublisher$2("fixedItemHeight");
   const customScrollParent = useEmitterValue$2("customScrollParent");
-  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent);
+  const useMyWindow = useEmitterValue$2("useMyWindow");
+  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent, useMyWindow);
   React.useEffect(() => {
     if (ctx) {
       fixedItemHeight(ctx.itemHeight);

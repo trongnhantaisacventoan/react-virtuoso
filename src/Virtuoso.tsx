@@ -340,7 +340,8 @@ const WindowViewport: React.FC<React.PropsWithChildren<unknown>> = ({ children }
   const windowViewportRect = usePublisher('windowViewportRect')
   const fixedItemHeight = usePublisher('fixedItemHeight')
   const customScrollParent = useEmitterValue('customScrollParent')
-  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent)
+  const useMyWindow = useEmitterValue('useMyWindow')
+  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent, useMyWindow)
 
   React.useEffect(() => {
     if (ctx) {
