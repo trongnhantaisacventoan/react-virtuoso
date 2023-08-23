@@ -2873,7 +2873,7 @@ function useWindowViewportRectRef(callback, customScrollParent) {
   const viewportInfo = React.useRef(null);
   const calculateInfo = React.useCallback(
     (element) => {
-      console.log("go here", element, element.offsetParent, customScrollParent);
+      console.log("go here", element, element == null ? void 0 : element.offsetParent, customScrollParent);
       if (element === null || !element.offsetParent) {
         return;
       }
