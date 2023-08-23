@@ -11,7 +11,6 @@ export default function useWindowViewportRectRef(
 
   const calculateInfo = React.useCallback(
     (element: HTMLElement | null) => {
-      console.log('go here', element, element?.offsetParent)
       if (element === null || !element.offsetParent) {
         return
       }
@@ -50,14 +49,13 @@ export default function useWindowViewportRectRef(
 
   const scrollAndResizeParentEventHandler = React.useCallback(() => {
     if (customScrollParent) {
-      console.log('DKM ----', 'scrollAndResizeParentEventHandler')
+      console.log('DKM ----', 'scrollAndResizeParentEventHandler', ref.current)
       calculateInfo(customScrollParent)
     }
   }, [calculateInfo, customScrollParent])
 
   React.useEffect(() => {
     if (customScrollParent) {
-      console.log('DKM ----', 'scrollAndResizeParentEventHandler  aaa', myWindow)
       customScrollParent.addEventListener('scroll', scrollAndResizeEventHandler)
       const observer = new ResizeObserver(scrollAndResizeEventHandler)
       observer.observe(customScrollParent)
