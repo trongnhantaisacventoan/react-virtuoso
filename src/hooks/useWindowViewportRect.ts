@@ -10,6 +10,8 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
       if (element === null || !element.offsetParent) {
         return
       }
+
+      console.log('go here', element)
       const rect = element.getBoundingClientRect()
       const visibleWidth = rect.width
       let visibleHeight: number, offsetTop: number
