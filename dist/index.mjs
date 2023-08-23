@@ -506,7 +506,6 @@ function useSize(callback, enabled = true) {
 function useChangedListContentsSizes(callback, itemSize, enabled, scrollContainerStateCallback, log, gap, customScrollParent) {
   const memoedCallback = React.useCallback(
     (el) => {
-      console.log("use size callback", el);
       const ranges = getChangedChildSizes(el.children, itemSize, "offsetHeight", log);
       let scrollableElement = el.parentElement;
       while (!scrollableElement.dataset["virtuosoScroller"]) {
@@ -2908,10 +2907,12 @@ function useWindowViewportRectRef(callback, customScrollParent) {
     if (customScrollParent) {
       customScrollParent.addEventListener("scroll", scrollAndResizeEventHandler);
       const observer = new ResizeObserver(scrollAndResizeEventHandler);
+      observer.observe(customScrollParent.ownerDocument.body);
       observer.observe(customScrollParent);
       return () => {
         customScrollParent.removeEventListener("scroll", scrollAndResizeEventHandler);
         observer.unobserve(customScrollParent);
+        observer.unobserve(customScrollParent.ownerDocument.body);
       };
     } else {
       window.addEventListener("scroll", scrollAndResizeEventHandler);
