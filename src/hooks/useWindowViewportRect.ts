@@ -7,6 +7,7 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
 
   const calculateInfo = React.useCallback(
     (element: HTMLElement | null) => {
+      console.log('go here', element, element.offsetParent, customScrollParent)
       if (element === null || !element.offsetParent) {
         return
       }
@@ -44,7 +45,6 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
 
   React.useEffect(() => {
     if (customScrollParent) {
-      console.log('go here')
       customScrollParent.addEventListener('scroll', scrollAndResizeEventHandler)
       const observer = new ResizeObserver(scrollAndResizeEventHandler)
       observer.observe(customScrollParent)

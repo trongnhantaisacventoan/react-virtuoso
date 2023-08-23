@@ -2873,6 +2873,7 @@ function useWindowViewportRectRef(callback, customScrollParent) {
   const viewportInfo = React.useRef(null);
   const calculateInfo = React.useCallback(
     (element) => {
+      console.log("go here", element, element.offsetParent, customScrollParent);
       if (element === null || !element.offsetParent) {
         return;
       }
@@ -2903,7 +2904,6 @@ function useWindowViewportRectRef(callback, customScrollParent) {
   }, [calculateInfo, ref]);
   React.useEffect(() => {
     if (customScrollParent) {
-      console.log("go here");
       customScrollParent.addEventListener("scroll", scrollAndResizeEventHandler);
       const observer = new ResizeObserver(scrollAndResizeEventHandler);
       observer.observe(customScrollParent);
