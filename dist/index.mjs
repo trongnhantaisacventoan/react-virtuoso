@@ -2871,7 +2871,7 @@ const positionStickyCssValue = simpleMemoize(() => {
   node.style.position = WEBKIT_STICKY;
   return node.style.position === WEBKIT_STICKY ? WEBKIT_STICKY : STICKY;
 });
-function useWindowViewportRectRef(callback, customScrollParent) {
+function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
   const viewportInfo = React.useRef(null);
   const calculateInfo = React.useCallback(
     (element) => {
@@ -2904,17 +2904,23 @@ function useWindowViewportRectRef(callback, customScrollParent) {
   const scrollAndResizeEventHandler = React.useCallback(() => {
     calculateInfo(ref.current);
   }, [calculateInfo, ref]);
+  const scrollAndResizeParentEventHandler = React.useCallback(() => {
+    if (customScrollParent) {
+      console.log("DKM ----", "scrollAndResizeParentEventHandler");
+      calculateInfo(customScrollParent);
+    }
+  }, [calculateInfo, customScrollParent]);
   React.useEffect(() => {
     if (customScrollParent) {
+      console.log("DKM ----", "scrollAndResizeParentEventHandler  aaa", myWindow);
       customScrollParent.addEventListener("scroll", scrollAndResizeEventHandler);
       const observer = new ResizeObserver(scrollAndResizeEventHandler);
-      console.log("custom parent", customScrollParent);
       observer.observe(customScrollParent);
-      observer.observe(customScrollParent.ownerDocument.body);
+      myWindow == null ? void 0 : myWindow.addEventListener("resize", scrollAndResizeParentEventHandler);
       return () => {
         customScrollParent.removeEventListener("scroll", scrollAndResizeEventHandler);
         observer.unobserve(customScrollParent);
-        observer.unobserve(customScrollParent.ownerDocument.body);
+        myWindow == null ? void 0 : myWindow.removeEventListener("resize", scrollAndResizeParentEventHandler);
       };
     } else {
       window.addEventListener("scroll", scrollAndResizeEventHandler);

@@ -2,7 +2,11 @@ import React from 'react'
 import { useSizeWithElRef } from './useSize'
 import { WindowViewportInfo } from '../interfaces'
 
-export default function useWindowViewportRectRef(callback: (info: WindowViewportInfo) => void, customScrollParent?: HTMLElement) {
+export default function useWindowViewportRectRef(
+  callback: (info: WindowViewportInfo) => void,
+  customScrollParent?: HTMLElement,
+  myWindow?: Window
+) {
   const viewportInfo = React.useRef<WindowViewportInfo | null>(null)
 
   const calculateInfo = React.useCallback(
@@ -44,18 +48,25 @@ export default function useWindowViewportRectRef(callback: (info: WindowViewport
     calculateInfo(ref.current)
   }, [calculateInfo, ref])
 
+  const scrollAndResizeParentEventHandler = React.useCallback(() => {
+    if (customScrollParent) {
+      console.log('DKM ----', 'scrollAndResizeParentEventHandler')
+      calculateInfo(customScrollParent)
+    }
+  }, [calculateInfo, customScrollParent])
+
   React.useEffect(() => {
     if (customScrollParent) {
+      console.log('DKM ----', 'scrollAndResizeParentEventHandler  aaa', myWindow)
       customScrollParent.addEventListener('scroll', scrollAndResizeEventHandler)
       const observer = new ResizeObserver(scrollAndResizeEventHandler)
-      console.log('custom parent', customScrollParent)
       observer.observe(customScrollParent)
-      observer.observe(customScrollParent.ownerDocument.body)
+      myWindow?.addEventListener('resize', scrollAndResizeParentEventHandler)
 
       return () => {
         customScrollParent.removeEventListener('scroll', scrollAndResizeEventHandler)
         observer.unobserve(customScrollParent)
-        observer.unobserve(customScrollParent.ownerDocument.body)
+        myWindow?.removeEventListener('resize', scrollAndResizeParentEventHandler)
       }
     } else {
       window.addEventListener('scroll', scrollAndResizeEventHandler)
