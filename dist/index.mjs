@@ -507,8 +507,8 @@ function useSizeWithElRef(callback, enabled = true, useMyWindow) {
   }
   return { ref, callbackRef };
 }
-function useSize(callback, enabled = true) {
-  return useSizeWithElRef(callback, enabled).callbackRef;
+function useSize(callback, enabled = true, useMyWindow) {
+  return useSizeWithElRef(callback, enabled, useMyWindow).callbackRef;
 }
 function useChangedListContentsSizes(callback, itemSize, enabled, scrollContainerStateCallback, log, gap, customScrollParent) {
   const memoedCallback = React.useCallback(
@@ -3192,7 +3192,12 @@ const Viewport$2 = ({ children }) => {
   const ctx = React.useContext(VirtuosoMockContext);
   const viewportHeight = usePublisher$2("viewportHeight");
   const fixedItemHeight = usePublisher$2("fixedItemHeight");
-  const viewportRef = useSize(compose(viewportHeight, (el) => correctItemSize(el, "height")));
+  const useMyWindow = useEmitterValue$2("useMyWindow");
+  const viewportRef = useSize(
+    compose(viewportHeight, (el) => correctItemSize(el, "height")),
+    void 0,
+    useMyWindow
+  );
   React.useEffect(() => {
     if (ctx) {
       viewportHeight(ctx.viewportHeight);
@@ -3206,7 +3211,6 @@ const WindowViewport$2 = ({ children }) => {
   const windowViewportRect = usePublisher$2("windowViewportRect");
   const fixedItemHeight = usePublisher$2("fixedItemHeight");
   const customScrollParent = useEmitterValue$2("customScrollParent");
-  useEmitterValue$2("useMyWindow");
   const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent);
   React.useEffect(() => {
     if (ctx) {

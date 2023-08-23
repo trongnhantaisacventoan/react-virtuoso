@@ -319,7 +319,12 @@ const Viewport: React.FC<React.PropsWithChildren<unknown>> = ({ children }) => {
   const ctx = React.useContext(VirtuosoMockContext)
   const viewportHeight = usePublisher('viewportHeight')
   const fixedItemHeight = usePublisher('fixedItemHeight')
-  const viewportRef = useSize(u.compose(viewportHeight, (el) => correctItemSize(el, 'height')))
+  const useMyWindow = useEmitterValue('useMyWindow')
+  const viewportRef = useSize(
+    u.compose(viewportHeight, (el) => correctItemSize(el, 'height')),
+    undefined,
+    useMyWindow
+  )
 
   React.useEffect(() => {
     if (ctx) {
@@ -340,8 +345,8 @@ const WindowViewport: React.FC<React.PropsWithChildren<unknown>> = ({ children }
   const windowViewportRect = usePublisher('windowViewportRect')
   const fixedItemHeight = usePublisher('fixedItemHeight')
   const customScrollParent = useEmitterValue('customScrollParent')
-  const useMyWindow = useEmitterValue('useMyWindow')
-  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent, useMyWindow)
+
+  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent)
 
   React.useEffect(() => {
     if (ctx) {

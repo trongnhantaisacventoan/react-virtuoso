@@ -43,6 +43,6 @@ export function useSizeWithElRef(callback: (e: HTMLElement) => void, enabled = t
   return { ref, callbackRef }
 }
 
-export default function useSize(callback: (e: HTMLElement) => void, enabled = true) {
-  return useSizeWithElRef(callback, enabled).callbackRef
+export default function useSize(callback: (e: HTMLElement) => void, enabled = true, useMyWindow?: Window) {
+  return useSizeWithElRef(callback, enabled, useMyWindow).callbackRef
 }
