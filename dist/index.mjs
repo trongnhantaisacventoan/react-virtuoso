@@ -2875,7 +2875,6 @@ function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
   const viewportInfo = React.useRef(null);
   const calculateInfo = React.useCallback(
     (element) => {
-      console.log("DKM calculateInfo", element);
       if (element === null || !element.offsetParent) {
         return;
       }
@@ -2896,6 +2895,7 @@ function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
         visibleHeight,
         visibleWidth
       };
+      console.log("DKM calculateInfo", viewportInfo.current);
       callback(viewportInfo.current);
     },
     [callback, customScrollParent]

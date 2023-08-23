@@ -11,7 +11,6 @@ export default function useWindowViewportRectRef(
 
   const calculateInfo = React.useCallback(
     (element: HTMLElement | null) => {
-      console.log('DKM calculateInfo', element)
       if (element === null || !element.offsetParent) {
         return
       }
@@ -36,6 +35,8 @@ export default function useWindowViewportRectRef(
         visibleHeight,
         visibleWidth,
       }
+
+      console.log('DKM calculateInfo', viewportInfo.current)
 
       callback(viewportInfo.current)
     },
