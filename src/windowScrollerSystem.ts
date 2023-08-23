@@ -7,6 +7,7 @@ export const windowScrollerSystem = u.system(([{ scrollTo, scrollContainerState 
   const windowViewportRect = u.stream<WindowViewportInfo>()
   const windowScrollTo = u.stream<ScrollToOptions>()
   const useWindowScroll = u.statefulStream(false)
+  const useMyWindow = u.statefulStream<Window | undefined>(undefined)
   const customScrollParent = u.statefulStream<HTMLElement | undefined>(undefined)
 
   u.connect(
@@ -40,6 +41,7 @@ export const windowScrollerSystem = u.system(([{ scrollTo, scrollContainerState 
   return {
     // config
     useWindowScroll,
+    useMyWindow,
     customScrollParent,
 
     // input

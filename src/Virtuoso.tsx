@@ -421,6 +421,7 @@ export const {
       initialScrollTop: 'initialScrollTop',
       alignToBottom: 'alignToBottom',
       useWindowScroll: 'useWindowScroll',
+      useMyWindow: 'useMyWindow',
       customScrollParent: 'customScrollParent',
       scrollerRef: 'scrollerRef',
       logLevel: 'logLevel',

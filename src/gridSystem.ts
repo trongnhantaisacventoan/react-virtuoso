@@ -83,7 +83,7 @@ export const gridSystem = /*#__PURE__*/ u.system(
     stateFlags,
     scrollSeek,
     { propsReady, didMount },
-    { windowViewportRect, windowScrollTo, useWindowScroll, customScrollParent, windowScrollContainerState },
+    { windowViewportRect, windowScrollTo, useWindowScroll, useMyWindow, customScrollParent, windowScrollContainerState },
     log,
   ]) => {
     const totalCount = u.statefulStream(0)
@@ -293,6 +293,7 @@ export const gridSystem = /*#__PURE__*/ u.system(
       windowViewportRect,
       windowScrollTo,
       useWindowScroll,
+      useMyWindow,
       customScrollParent,
       windowScrollContainerState,
       deviation,

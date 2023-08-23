@@ -656,6 +656,10 @@ export declare interface TableVirtuosoProps<D, C> extends Omit<VirtuosoProps<D, 
      */
     useWindowScroll?: boolean;
     /**
+     * Uses the my window
+     */
+    useMyWindow?: Window;
+    /**
      * Pass a reference to a scrollable parent element, so that the table won't wrap in its own.
      */
     customScrollParent?: HTMLElement;
@@ -785,6 +789,10 @@ export declare interface VirtuosoGridProps<D, C = unknown> extends GridRootProps
      * Uses the document scroller rather than wrapping the grid in its own.
      */
     useWindowScroll?: boolean;
+    /**
+     * Uses the my window
+     */
+    useMyWindow?: Window;
     /**
      * Pass a reference to a scrollable parent element, so that the grid won't wrap in its own.
      */
@@ -1000,6 +1008,10 @@ export declare interface VirtuosoProps<D, C> extends ListRootProps {
      * Uses the document scroller rather than wrapping the list in its own.
      */
     useWindowScroll?: boolean;
+    /**
+     * Uses the my window
+     */
+    useMyWindow?: Window;
     /**
      * Pass a reference to a scrollable parent element, so that the list won't wrap in its own.
      */

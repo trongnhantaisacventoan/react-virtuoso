@@ -196,6 +196,11 @@ export interface TableVirtuosoProps<D, C> extends Omit<VirtuosoProps<D, C>, 'com
   useWindowScroll?: boolean
 
   /**
+   * Uses the my window
+   */
+  useMyWindow?: Window
+
+  /**
    * Pass a reference to a scrollable parent element, so that the table won't wrap in its own.
    */
   customScrollParent?: HTMLElement

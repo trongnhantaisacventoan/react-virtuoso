@@ -14,7 +14,7 @@ export default function useChangedListContentsSizes(
 ) {
   const memoedCallback = React.useCallback(
     (el: HTMLElement) => {
-      console.log('use size callback')
+      console.log('use size callback', el)
       const ranges = getChangedChildSizes(el.children, itemSize, 'offsetHeight', log)
       let scrollableElement = el.parentElement!
 

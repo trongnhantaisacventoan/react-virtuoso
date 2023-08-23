@@ -506,7 +506,7 @@ function useSize(callback, enabled = true) {
 function useChangedListContentsSizes(callback, itemSize, enabled, scrollContainerStateCallback, log, gap, customScrollParent) {
   const memoedCallback = React.useCallback(
     (el) => {
-      console.log("use size callback");
+      console.log("use size callback", el);
       const ranges = getChangedChildSizes(el.children, itemSize, "offsetHeight", log);
       let scrollableElement = el.parentElement;
       while (!scrollableElement.dataset["virtuosoScroller"]) {
@@ -2638,6 +2638,7 @@ const windowScrollerSystem = system(([{ scrollTo, scrollContainerState }]) => {
   const windowViewportRect = stream();
   const windowScrollTo = stream();
   const useWindowScroll = statefulStream(false);
+  const useMyWindow = statefulStream(void 0);
   const customScrollParent = statefulStream(void 0);
   connect(
     pipe(
@@ -2668,6 +2669,7 @@ const windowScrollerSystem = system(([{ scrollTo, scrollContainerState }]) => {
   return {
     // config
     useWindowScroll,
+    useMyWindow,
     customScrollParent,
     // input
     windowScrollContainerState,
@@ -3257,6 +3259,7 @@ const {
       initialScrollTop: "initialScrollTop",
       alignToBottom: "alignToBottom",
       useWindowScroll: "useWindowScroll",
+      useMyWindow: "useMyWindow",
       customScrollParent: "customScrollParent",
       scrollerRef: "scrollerRef",
       logLevel: "logLevel"
@@ -3329,7 +3332,7 @@ const gridSystem = /* @__PURE__ */ system(
     stateFlags,
     scrollSeek,
     { propsReady, didMount },
-    { windowViewportRect, windowScrollTo, useWindowScroll, customScrollParent, windowScrollContainerState },
+    { windowViewportRect, windowScrollTo, useWindowScroll, useMyWindow, customScrollParent, windowScrollContainerState },
     log
   ]) => {
     const totalCount = statefulStream(0);
@@ -3514,6 +3517,7 @@ const gridSystem = /* @__PURE__ */ system(
       windowViewportRect,
       windowScrollTo,
       useWindowScroll,
+      useMyWindow,
       customScrollParent,
       windowScrollContainerState,
       deviation,
@@ -3973,6 +3977,7 @@ const {
       initialScrollTop: "initialScrollTop",
       alignToBottom: "alignToBottom",
       useWindowScroll: "useWindowScroll",
+      useMyWindow: "useMyWindow",
       customScrollParent: "customScrollParent",
       scrollerRef: "scrollerRef",
       logLevel: "logLevel"

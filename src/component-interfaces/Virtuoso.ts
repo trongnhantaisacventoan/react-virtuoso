@@ -214,6 +214,11 @@ export interface VirtuosoProps<D, C> extends ListRootProps {
   useWindowScroll?: boolean
 
   /**
+   * Uses the my window
+   */
+  useMyWindow?: Window
+
+  /**
    * Pass a reference to a scrollable parent element, so that the list won't wrap in its own.
    */
   customScrollParent?: HTMLElement

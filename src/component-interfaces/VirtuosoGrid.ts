@@ -113,6 +113,11 @@ export interface VirtuosoGridProps<D, C = unknown> extends GridRootProps {
   useWindowScroll?: boolean
 
   /**
+   * Uses the my window
+   */
+  useMyWindow?: Window
+
+  /**
    * Pass a reference to a scrollable parent element, so that the grid won't wrap in its own.
    */
   customScrollParent?: HTMLElement
