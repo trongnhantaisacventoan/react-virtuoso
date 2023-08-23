@@ -473,7 +473,7 @@ const loggerSystem = system(
   [],
   { singleton: true }
 );
-function useSizeWithElRef(callback, enabled = true) {
+function useSizeWithElRef(callback, enabled = true, useMyWindow) {
   const ref = React.useRef(null);
   let callbackRef = (_el) => {
   };
@@ -486,11 +486,18 @@ function useSizeWithElRef(callback, enabled = true) {
         }
       });
     }, [callback]);
+    const callBack1 = React.useCallback(() => {
+      if (ref.current) {
+        callback(ref.current);
+      }
+    }, [callback, ref]);
     callbackRef = (elRef) => {
       if (elRef && enabled) {
         observer.observe(elRef);
+        useMyWindow == null ? void 0 : useMyWindow.addEventListener("resize", callBack1);
         ref.current = elRef;
       } else {
+        useMyWindow == null ? void 0 : useMyWindow.removeEventListener("resize", callBack1);
         if (ref.current) {
           observer.unobserve(ref.current);
         }
@@ -2871,7 +2878,7 @@ const positionStickyCssValue = simpleMemoize(() => {
   node.style.position = WEBKIT_STICKY;
   return node.style.position === WEBKIT_STICKY ? WEBKIT_STICKY : STICKY;
 });
-function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
+function useWindowViewportRectRef(callback, customScrollParent) {
   const viewportInfo = React.useRef(null);
   const calculateInfo = React.useCallback(
     (element) => {
@@ -2895,7 +2902,6 @@ function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
         visibleHeight,
         visibleWidth
       };
-      console.log("DKM calculateInfo", viewportInfo.current);
       callback(viewportInfo.current);
     },
     [callback, customScrollParent]
@@ -2909,11 +2915,9 @@ function useWindowViewportRectRef(callback, customScrollParent, myWindow) {
       customScrollParent.addEventListener("scroll", scrollAndResizeEventHandler);
       const observer = new ResizeObserver(scrollAndResizeEventHandler);
       observer.observe(customScrollParent);
-      myWindow == null ? void 0 : myWindow.addEventListener("resize", scrollAndResizeEventHandler);
       return () => {
         customScrollParent.removeEventListener("scroll", scrollAndResizeEventHandler);
         observer.unobserve(customScrollParent);
-        myWindow == null ? void 0 : myWindow.removeEventListener("resize", scrollAndResizeEventHandler);
       };
     } else {
       window.addEventListener("scroll", scrollAndResizeEventHandler);
@@ -3202,8 +3206,8 @@ const WindowViewport$2 = ({ children }) => {
   const windowViewportRect = usePublisher$2("windowViewportRect");
   const fixedItemHeight = usePublisher$2("fixedItemHeight");
   const customScrollParent = useEmitterValue$2("customScrollParent");
-  const useMyWindow = useEmitterValue$2("useMyWindow");
-  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent, useMyWindow);
+  useEmitterValue$2("useMyWindow");
+  const viewportRef = useWindowViewportRectRef(windowViewportRect, customScrollParent);
   React.useEffect(() => {
     if (ctx) {
       fixedItemHeight(ctx.itemHeight);

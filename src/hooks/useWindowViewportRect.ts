@@ -2,11 +2,7 @@ import React from 'react'
 import { useSizeWithElRef } from './useSize'
 import { WindowViewportInfo } from '../interfaces'
 
-export default function useWindowViewportRectRef(
-  callback: (info: WindowViewportInfo) => void,
-  customScrollParent?: HTMLElement,
-  myWindow?: Window
-) {
+export default function useWindowViewportRectRef(callback: (info: WindowViewportInfo) => void, customScrollParent?: HTMLElement) {
   const viewportInfo = React.useRef<WindowViewportInfo | null>(null)
 
   const calculateInfo = React.useCallback(
@@ -36,8 +32,6 @@ export default function useWindowViewportRectRef(
         visibleWidth,
       }
 
-      console.log('DKM calculateInfo', viewportInfo.current)
-
       callback(viewportInfo.current)
     },
     [callback, customScrollParent]
@@ -54,12 +48,10 @@ export default function useWindowViewportRectRef(
       customScrollParent.addEventListener('scroll', scrollAndResizeEventHandler)
       const observer = new ResizeObserver(scrollAndResizeEventHandler)
       observer.observe(customScrollParent)
-      myWindow?.addEventListener('resize', scrollAndResizeEventHandler)
 
       return () => {
         customScrollParent.removeEventListener('scroll', scrollAndResizeEventHandler)
         observer.unobserve(customScrollParent)
-        myWindow?.removeEventListener('resize', scrollAndResizeEventHandler)
       }
     } else {
       window.addEventListener('scroll', scrollAndResizeEventHandler)
